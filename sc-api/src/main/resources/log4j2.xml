@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Properties>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss a} %-5level [%t] %logger{36}.%M : %msg%n</Property>
+        <Property name="appName">security-system</Property>
+        <Property name="logPath">${sys:user.dir}/logs</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss a} %highlight{%-5level} [%15.15t] %style{%40C{1.}.%-20M}{cyan} : %msg%n"/>
+        </Console>
+
+        <!-- Package log -->
+        <RollingFile name="application" fileName="${logPath}/${appName}/application/application.log"
+                     filePattern="${logPath}/${appName}/application/application-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+        <RollingFile name="controller" fileName="${logPath}/${appName}/controller/controller.log"
+                     filePattern="${logPath}/${appName}/controller/controller-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+        <RollingFile name="service" fileName="${logPath}/${appName}/service/service.log"
+                     filePattern="${logPath}/$${date:yyyy-MM}/%d{dd}/service/service.%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+        <RollingFile name="repository" fileName="${logPath}/${appName}/repository/repository.log"
+                     filePattern="${logPath}/$${date:yyyy-MM}/%d{dd}/repository/repository.%i.log">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+        <Logger name="vn.vissoft.sc.SCApplication" level="info" additivity="false">
+            <AppenderRef ref="application"/>
+        </Logger>
+        <Logger name="vn.vissoft.sc.controller" level="info" additivity="false">
+            <AppenderRef ref="controller"/>
+        </Logger>
+        <Logger name="vn.vissoft.sc.service" level="info" additivity="false">
+            <AppenderRef ref="service"/>
+        </Logger>
+        <Logger name="vn.vissoft.sc.repository" level="info" additivity="false">
+            <AppenderRef ref="repository"/>
+        </Logger>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>
